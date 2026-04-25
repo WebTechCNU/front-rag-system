@@ -4,7 +4,6 @@ import { type HTMLMotionProps, motion, type Transition } from "motion/react"
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
-import { MotionHighlight, MotionHighlightItem } from "@/packages/text/motion-highlight"
 
 // Tabs Component
 interface TabsContextType<T extends string> {
@@ -113,22 +112,17 @@ function TabsList({
   children,
   className,
   activeClassName,
-  transition = {
+  transition: _transition = {
     type: "spring",
     stiffness: 200,
     damping: 25,
   },
   ...props
 }: TabsListProps) {
-  const { activeValue } = useTabs()
+  void _transition
 
   return (
-    <MotionHighlight
-      className={cn("rounded-sm bg-background shadow-sm", activeClassName)}
-      controlledItems
-      transition={transition}
-      value={activeValue}
-    >
+    <div className={cn("rounded-sm bg-background shadow-sm", activeClassName)}>
       <div
         className={cn(
           "bg-muted text-muted-foreground inline-flex h-10 w-fit items-center justify-center rounded-lg p-[4px]",
@@ -140,7 +134,7 @@ function TabsList({
       >
         {children}
       </div>
-    </MotionHighlight>
+    </div>
   )
 }
 
@@ -164,10 +158,10 @@ function TabsTrigger({ ref, value, children, className, ...props }: TabsTriggerP
   }, [value, registerTrigger])
 
   return (
-    <MotionHighlightItem className="size-full" value={value}>
+    <div className="size-full">
       <motion.button
         className={cn(
-          "inline-flex cursor-pointer items-center size-full justify-center whitespace-nowrap rounded-sm px-2 py-1 text-sm font-medium ring-offset-background transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-foreground z-[1]",
+          "inline-flex cursor-pointer items-center size-full justify-center whitespace-nowrap rounded-sm px-2 py-1 text-sm font-medium ring-offset-background transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-foreground z-1",
           className,
         )}
         data-slot="tabs-trigger"
@@ -180,7 +174,7 @@ function TabsTrigger({ ref, value, children, className, ...props }: TabsTriggerP
       >
         {children}
       </motion.button>
-    </MotionHighlightItem>
+    </div>
   )
 }
 

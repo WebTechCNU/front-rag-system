@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import { ChevronUp, LogIn, LogOut, MessageSquare, Plus, UserCircle2 } from "lucide-react"
 

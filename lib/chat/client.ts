@@ -19,13 +19,14 @@ export async function sendChatMessage(payload: ChatSendRequest): Promise<ChatSen
 
   if (!res.ok) {
     const maybe = data as Partial<ChatSendResponse>
-    return (
-      maybe ??
-      ({
-        ok: false,
-        error: { code: "http_error", message: `Request failed (${res.status}).` },
-      } satisfies ChatSendResponse)
-    )
+    if (maybe.ok === false && maybe.error?.code && maybe.error?.message) {
+      return { ok: false, error: maybe.error }
+    }
+
+    return {
+      ok: false,
+      error: { code: "http_error", message: `Request failed (${res.status}).` },
+    }
   }
 
   return data as ChatSendResponse
