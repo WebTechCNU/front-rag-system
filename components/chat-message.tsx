@@ -1,6 +1,6 @@
 "use client"
 
-import { Message, MessageContent } from "@/components/ai/message"
+import { Message, MessageContent, MessageResponse } from "@/components/ai/message"
 import { cn } from "@/lib/utils"
 
 export type Role = "user" | "assistant"
@@ -12,6 +12,13 @@ export type ChatMessageProps = {
 }
 
 export function ChatMessage({ role, className, children }: ChatMessageProps) {
+  const content =
+    role === "assistant" && typeof children === "string" ? (
+      <MessageResponse>{children}</MessageResponse>
+    ) : (
+      children
+    )
+
   return (
     <Message from={role} className={cn("max-w-2xl", className)}>
       <MessageContent
@@ -21,7 +28,7 @@ export function ChatMessage({ role, className, children }: ChatMessageProps) {
           "group-[.is-assistant]:rounded-xl group-[.is-assistant]:bg-muted group-[.is-assistant]:px-4 group-[.is-assistant]:py-3",
         )}
       >
-        {children}
+        {content}
       </MessageContent>
     </Message>
   )
